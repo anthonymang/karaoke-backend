@@ -39,7 +39,22 @@ const signup = async (req, res) => {
 
             let savedNewUser = await newUser.save();
 
-            res.json(savedNewUser)
+            const payload = {
+                id: savedNewUser.id,
+                email: savedNewUser.email,
+                name: savedNewUser.name,
+            }
+
+             // token is generated
+             let token = await jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 });
+             let legit = await jwt.verify(token, JWT_SECRET, { expiresIn: 60 });
+
+
+             res.json({
+                success: true,
+                token: `Bearer ${token}`,
+                userData: legit
+            });
         }
     } catch (error) {
         console.log('Error inside of /api/users/signup')
