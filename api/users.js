@@ -125,6 +125,17 @@ const profile = async (req, res) => {
     })
 }
 
+const fetchOneUser = async (req, res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id})
+        res.json(user)
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({message: 'No users found....'})
+
+    }
+}
+
 const fetchUsers = async (req, res) => {
     console.log('Inside of fetchUsers route')
     try {
@@ -158,5 +169,7 @@ router.post('/login', login);
 // GET api/users/profile (Private)
 router.get('/profile', passport.authenticate('jwt', { session: false }), profile);
 router.get('/all-users', fetchUsers);
+router.get('/:id', fetchOneUser);
+
 
 module.exports = router; 
