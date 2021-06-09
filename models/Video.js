@@ -13,10 +13,6 @@ const videoSchema = new Schema({
     description: {
         type: String,
     },
-    date: {
-        type: Date,
-        required: true,
-    },
     likes: {
         type: Number,
     },
@@ -25,7 +21,7 @@ const videoSchema = new Schema({
         type: Boolean,
         required: true
     }
-})
+},{timestamps: true})
 
 const Video = mongoose.model('Video', videoSchema);
 
