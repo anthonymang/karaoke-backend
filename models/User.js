@@ -17,6 +17,7 @@ const userSchema = new Schema({
     required: true,
     minlength: 8,
   },
+  profilePic: String,
   videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   followerArray: [],
