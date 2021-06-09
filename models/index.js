@@ -21,9 +21,9 @@ db.on('error', (error) =>{
 
 // import all models here
 const User = require('./User')
-const Book = require('./Book')
+const Video = require('./Video')
 
 module.exports = {
     User,
-    Book
+    Video
 }
