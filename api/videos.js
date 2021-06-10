@@ -76,8 +76,10 @@ router.get('/test', (req, res) => {
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), index);
+
 router.get('/trending', passport.authenticate('jwt', {session: false}), trending);
 router.get('/:id', passport.authenticate('jwt', {session: false}), show);
+
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.put('/', passport.authenticate('jwt', { session: false }), update);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteVideo);
