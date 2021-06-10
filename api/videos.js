@@ -13,7 +13,7 @@ const index = async (req, res) => {
     console.log('inside of api/videos')
     try {
         const allVideos = await Video.find({})
-        res.json({videos: allVideos})
+        res.json(allVideos)
     } catch (error) {
         console.log('---Error inside of /api/videos');
         console.log(error);
@@ -25,7 +25,7 @@ const show = async (req, res) => {
     try {
         const { id } = req.params
         const thisVideo = await Video.findById(id)
-        res.json({video: thisVideo})
+        res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of /api/videos/:id---')
         console.log(error)
@@ -58,7 +58,15 @@ const update = async (req, res) => {
 }
 
 const deleteVideo = async (req, res) => {
-
+    try {
+        const { id } = req.params
+        const thisVideo = await Video.findById(id)
+        res.json(thisVideo)
+    } catch (error) {
+        console.log('---Error inside of delete /api/videos/:id---')
+        console.log(error)
+        return res.status(400).json({ message: 'Video not deleted. Try again...'})
+    }
 }
 
 
