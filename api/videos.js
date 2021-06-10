@@ -25,7 +25,7 @@ const show = async (req, res) => {
     try {
         const { id } = req.params
         const thisVideo = await Video.findById(id)
-        res.json({video: thisVideo})
+        res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of /api/videos/:id---')
         console.log(error)
@@ -52,7 +52,7 @@ router.get('/test', (req, res) => {
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), index);
-router.get('/:id', passport.authenticate('jwt', {session: false}), show);
+router.get('/:id', /*passport.authenticate('jwt', {session: false}),*/ show);
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.put('/', passport.authenticate('jwt', { session: false }), update);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteVideo);
