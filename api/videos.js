@@ -13,7 +13,7 @@ const index = async (req, res) => {
     console.log('inside of api/videos')
     try {
         const allVideos = await Video.find({})
-        res.json({videos: allVideos})
+        res.json(allVideos)
     } catch (error) {
         console.log('---Error inside of /api/videos');
         console.log(error);
@@ -33,6 +33,22 @@ const show = async (req, res) => {
     }
 }
 
+const trending = async (req, res) => {
+    try {
+        const videos = await Video.find().sort({likes : -1}).limit(25)
+        console.log(videos)
+        if(!videos) {
+            return res.status(400).json({message: 'No videos found....'})
+        } else {
+            res.json(videos)
+        }
+    } catch (error) {
+        console.log('---Error inside of /api/videos/trending')
+        console.log(error)
+        return res.status(400).json({ message: 'Videos not found. Try again...'})
+    }
+}
+
 const create = async (req, res) => {
 
 }
@@ -42,7 +58,15 @@ const update = async (req, res) => {
 }
 
 const deleteVideo = async (req, res) => {
-
+    try {
+        const { id } = req.params
+        const thisVideo = await Video.findById(id)
+        res.json(thisVideo)
+    } catch (error) {
+        console.log('---Error inside of delete /api/videos/:id---')
+        console.log(error)
+        return res.status(400).json({ message: 'Video not deleted. Try again...'})
+    }
 }
 
 
@@ -52,7 +76,10 @@ router.get('/test', (req, res) => {
 });
 
 router.get('/', passport.authenticate('jwt', {session: false}), index);
-router.get('/:id', /*passport.authenticate('jwt', {session: false}),*/ show);
+
+router.get('/trending', passport.authenticate('jwt', {session: false}), trending);
+router.get('/:id', passport.authenticate('jwt', {session: false}), show);
+
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.put('/', passport.authenticate('jwt', { session: false }), update);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteVideo);
