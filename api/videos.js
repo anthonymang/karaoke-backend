@@ -50,17 +50,40 @@ const trending = async (req, res) => {
 }
 
 const create = async (req, res) => {
+    try {
+        const {userId, url, title, description, public } = req.body
+        const findUser = await User.findById(userId, (err, user) => {
+            const thisVideo = await Video.create({url: url, title: title, description: description, public: public},
+                (err, video) => {
+                    user.videos.push(video);
+                    user.save();
+                })
+        })
 
+    } catch (error) {
+        console.log('---Error inside of create /api/videos---')
+        console.log(error)
+        return res.status(400).json({ message: 'Video not created. Try again...'})
+    }
 }
 
 const update = async (req, res) => {
-
+    try {
+        const { id } = req.params
+        const { title, description } = req.body
+        const thisVideo = await Video.findByIdAndUpdate(id, {title: title, description: description})
+        res.json(thisVideo)
+    } catch (error) {
+        console.log('---Error inside of delete /api/videos/:id---')
+        console.log(error)
+        return res.status(400).json({ message: 'Video not deleted. Try again...'})
+    }
 }
 
 const deleteVideo = async (req, res) => {
     try {
         const { id } = req.params
-        const thisVideo = await Video.findById(id)
+        const thisVideo = await Video.findByIdAndDelete(id)
         res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of delete /api/videos/:id---')
