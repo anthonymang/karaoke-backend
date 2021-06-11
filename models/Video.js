@@ -20,6 +20,10 @@ const videoSchema = new Schema({
     public: {
         type: Boolean,
         required: true
+    },
+    thumbnail: {
+        type: String,
+        required: true
     }
 },{timestamps: true})
 

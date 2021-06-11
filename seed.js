@@ -21,6 +21,7 @@ User.create(
         description: "Video of Itachi",
         likes: 2,
         public: true,
+        thumbnail: 'https://res-console.cloudinary.com/sei412-om/thumbnails/v1/video/upload/v1623251186/bXlsaXZld2FsbHBhcGVycy5jb20tSXRhY2hpLVNoYXJpZ2FuX3R0dnR2eQ==/preview'
       },
       (err, video) => {
         user.videos.push(video);
@@ -70,6 +71,7 @@ User.create(
         description: "Video of Rick & Morty",
         likes: 10,
         public: true,
+        thumbnail: 'https://res-console.cloudinary.com/sei412-om/thumbnails/v1/video/upload/v1623251806/bXlsaXZld2FsbHBhcGVycy5jb20tUmljay1OLU1vcnR5LUFkdmVudHVyZXNfbHRqb25o/preview'
       },
       (err, video) => {
         user.videos.push(video);
@@ -110,6 +112,7 @@ User.create(
         description: "Video 2 of Itachi",
         likes: 100,
         public: true,
+        thumbnail: 'https://res-console.cloudinary.com/sei412-om/thumbnails/v1/video/upload/v1623251809/bXlsaXZld2FsbHBhcGVycy5jb20tSXRhY2hpLVVjaGloYS1OYXJ1dG9fbHZ1cXZ2/preview'
       },
       (err, video) => {
         user.videos.push(video);
@@ -150,6 +153,7 @@ User.create(
         description: "Video of Kakashi",
         likes: 1000,
         public: true,
+        thumbnail: 'https://res-console.cloudinary.com/sei412-om/thumbnails/v1/video/upload/v1623251812/bXlsaXZld2FsbHBhcGVycy5jb20tSGF0YWtlLUtha2FzaGktTmFydXRvX25pamMxOQ==/preview'
       },
       (err, video) => {
         user.videos.push(video);
