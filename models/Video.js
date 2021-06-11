@@ -21,7 +21,11 @@ const videoSchema = new Schema({
         type: Boolean,
         required: true
     },
-    userId: String
+    userId: String,
+    thumbnail: {
+        type: String,
+        required: true
+    }
 },{timestamps: true})
 
 const Video = mongoose.model('Video', videoSchema);
