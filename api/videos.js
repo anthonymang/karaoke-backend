@@ -24,7 +24,7 @@ const index = async (req, res) => {
 const show = async (req, res) => {
     try {
         const { id } = req.params
-        const thisVideo = await Video.findById(id)
+        const thisVideo = await Video.findById(id).populate('comments')
         res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of /api/videos/:id---')
@@ -50,21 +50,21 @@ const trending = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    try {
-        const {userId, url, title, description, public } = req.body
-        const findUser = await User.findById(userId, (err, user) => {
-            const thisVideo = await Video.create({url: url, title: title, description: description, public: public},
-                (err, video) => {
-                    user.videos.push(video);
-                    user.save();
-                })
-        })
+    // try {
+    //     const {userId, url, title, description, public } = req.body
+    //     const findUser = await User.findById(userId, (err, user) => {
+    //         const thisVideo = await Video.create({url: url, title: title, description: description, public: public},
+    //             (err, video) => {
+    //                 user.videos.push(video);
+    //                 user.save();
+    //             })
+    //     })
 
-    } catch (error) {
-        console.log('---Error inside of create /api/videos---')
-        console.log(error)
-        return res.status(400).json({ message: 'Video not created. Try again...'})
-    }
+    // } catch (error) {
+    //     console.log('---Error inside of create /api/videos---')
+    //     console.log(error)
+    //     return res.status(400).json({ message: 'Video not created. Try again...'})
+    // }
 }
 
 const update = async (req, res) => {
@@ -98,10 +98,10 @@ router.get('/test', (req, res) => {
     res.json({ msg: 'Videos endpoint OK!'});
 });
 
-router.get('/', passport.authenticate('jwt', {session: false}), index);
+router.get('/', index);
 
 router.get('/trending', passport.authenticate('jwt', {session: false}), trending);
-router.get('/:id', passport.authenticate('jwt', {session: false}), show);
+router.get('/:id', show);
 
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.put('/', passport.authenticate('jwt', { session: false }), update);

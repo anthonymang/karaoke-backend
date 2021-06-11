@@ -32,11 +32,20 @@ User.create(
             console.log(video);
             video.comments.push(comment);
             user.comments.push(comment);
-            video.save();
-            user.save();
             console.log(comment);
           }
         );
+        Comment.create(
+            { content: "Yoo!", likes: 35 },
+            (err, comment) => {
+              console.log(video);
+              video.comments.push(comment);
+              user.comments.push(comment);
+              video.save();
+              user.save();
+              console.log(comment);
+            }
+          );
       }
     );
   }
@@ -161,3 +170,5 @@ User.create(
     );
   }
 );
+
+
