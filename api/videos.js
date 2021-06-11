@@ -26,7 +26,7 @@ const index = async (req, res) => {
 const show = async (req, res) => {
     try {
         const { id } = req.params
-        const thisVideo = await Video.findById(id)
+        const thisVideo = await Video.findById(id).populate('comments')
         res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of /api/videos/:id---')
@@ -105,7 +105,7 @@ router.get('/test', (req, res) => {
 router.get('/', passport.authenticate('jwt', {session: false}), index);
 
 router.get('/trending', passport.authenticate('jwt', {session: false}), trending);
-router.get('/:id', passport.authenticate('jwt', {session: false}), show);
+router.get('/:id', /*passport.authenticate('jwt', {session: false}),*/ show);
 
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.put('/:id', passport.authenticate('jwt', { session: false }), update);
