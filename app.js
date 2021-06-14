@@ -21,7 +21,7 @@ require('./config/passport')(passport)
 
 // Home route
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Smile, you are being watched by the Backend Engineering Team' });
+    res.send('This should be working')
 });
 
 // Routes
