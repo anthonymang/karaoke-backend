@@ -127,7 +127,9 @@ const profile = async (req, res) => {
 
 const fetchOneUser = async (req, res) => {
     try {
-        const user = await User.findOne({_id: req.params.id})
+        const { id } = req.params
+        const user = await User.findById(id).populate('videos')
+        console.log(user)
         res.json(user)
     } catch (error) {
         console.log(error)
@@ -170,6 +172,7 @@ router.post('/login', login);
 router.get('/profile', passport.authenticate('jwt', { session: false }), profile);
 router.get('/all-users', fetchUsers);
 router.get('/:id', fetchOneUser);
+
 
 
 module.exports = router; 
