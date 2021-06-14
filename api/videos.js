@@ -6,6 +6,8 @@ const passport = require('passport');
 
 // Models
 const { Video } = require('../models');
+const { User } = require('../models');
+
 const { findOne } = require('../models/User');
 
 // Controllers
@@ -65,13 +67,15 @@ const create = async (req, res) => {
     //     console.log(error)
     //     return res.status(400).json({ message: 'Video not created. Try again...'})
     // }
+
 }
 
 const update = async (req, res) => {
     try {
         const { id } = req.params
         const { title, description } = req.body
-        const thisVideo = await Video.findByIdAndUpdate(id, {title: title, description: description})
+
+        const thisVideo = await Video.findByIdAndUpdate(id, {title: title, description: description}, {new: true})
         res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of delete /api/videos/:id---')
@@ -84,7 +88,7 @@ const deleteVideo = async (req, res) => {
     try {
         const { id } = req.params
         const thisVideo = await Video.findByIdAndDelete(id)
-        res.json(thisVideo)
+        return res.json(thisVideo)
     } catch (error) {
         console.log('---Error inside of delete /api/videos/:id---')
         console.log(error)
@@ -104,7 +108,7 @@ router.get('/trending', passport.authenticate('jwt', {session: false}), trending
 router.get('/:id', show);
 
 router.post('/', passport.authenticate('jwt', { session: false }), create);
-router.put('/', passport.authenticate('jwt', { session: false }), update);
+router.put('/:id', passport.authenticate('jwt', { session: false }), update);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteVideo);
 
 module.exports = router;
