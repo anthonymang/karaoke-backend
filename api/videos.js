@@ -52,21 +52,23 @@ const trending = async (req, res) => {
 }
 
 const create = async (req, res) => {
-    // try {
-    //     const {userId, url, title, description, public } = req.body
-    //     const findUser = await User.findById(userId, (err, user) => {
-    //         const thisVideo = await Video.create({url: url, title: title, description: description, public: public},
-    //             (err, video) => {
-    //                 user.videos.push(video);
-    //                 user.save();
-    //             })
-    //     })
+    try {
+        console.log('---create route---')
+        const { userId, url, title, description, thumbnail, public } = req.body
+        const findUser = await User.findById(userId, async (err, user) => {
+            const thisVideo = await new Video({url: url, title: title, description: description, public: public, thumbnail: thumbnail}).save()
+            user.videos.push(thisVideo)
+            user.save()
+            res.json(thisVideo)
+            console.log(thisVideo)
+        })
+        
 
-    // } catch (error) {
-    //     console.log('---Error inside of create /api/videos---')
-    //     console.log(error)
-    //     return res.status(400).json({ message: 'Video not created. Try again...'})
-    // }
+    } catch (error) {
+        console.log('---Error inside of create /api/videos---')
+        console.log(error)
+        return res.status(400).json({ message: 'Video not created. Try again...'})
+    }
 
 }
 
@@ -74,7 +76,6 @@ const update = async (req, res) => {
     try {
         const { id } = req.params
         const { title, description } = req.body
-
         const thisVideo = await Video.findByIdAndUpdate(id, {title: title, description: description}, {new: true})
         res.json(thisVideo)
     } catch (error) {
@@ -107,7 +108,7 @@ router.get('/', index);
 router.get('/trending', trending);
 router.get('/:id', show);
 
-router.post('/', passport.authenticate('jwt', { session: false }), create);
+router.post('/', /*passport.authenticate('jwt', { session: false }),*/ create);
 router.put('/:id', passport.authenticate('jwt', { session: false }), update);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), deleteVideo);
 

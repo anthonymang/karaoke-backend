@@ -21,6 +21,7 @@ const videoSchema = new Schema({
         type: Boolean,
         required: true
     },
+    userId: String,
     thumbnail: {
         type: String,
         required: true
