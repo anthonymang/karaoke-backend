@@ -104,7 +104,7 @@ router.get('/test', (req, res) => {
 
 router.get('/', index);
 
-router.get('/trending', passport.authenticate('jwt', {session: false}), trending);
+router.get('/trending', trending);
 router.get('/:id', show);
 
 router.post('/', passport.authenticate('jwt', { session: false }), create);
