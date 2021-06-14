@@ -1,5 +1,5 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 
 let connectionString = "";
 if (process.env.NODE_ENV === "production") {
@@ -17,19 +17,21 @@ mongoose.connect(connectionString, {
 const db = mongoose.connection;
 
 // Set up event for db to print connection
-db.once('open', () => {
-    console.log(`Connect to MongoDB at ${db.host}: ${db.port}`)
-})
+db.once("open", () => {
+  console.log(`Connect to MongoDB at ${db.host}: ${db.port}`);
+});
 
-db.on('error', (error) =>{
-    console.log(`Database error`, error)
-})
+db.on("error", (error) => {
+  console.log(`Database error`, error);
+});
 
 // import all models here
-const User = require('./User')
-const Book = require('./Book')
+const User = require("./User");
+const Video = require("./Video");
+const Comment = require("./Comment");
 
 module.exports = {
-    User,
-    Book
-}
+  User,
+  Video,
+  Comment,
+};

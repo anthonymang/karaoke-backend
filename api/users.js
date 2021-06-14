@@ -39,7 +39,22 @@ const signup = async (req, res) => {
 
             let savedNewUser = await newUser.save();
 
-            res.json(savedNewUser)
+            const payload = {
+                id: savedNewUser.id,
+                email: savedNewUser.email,
+                name: savedNewUser.name,
+            }
+
+             // token is generated
+             let token = await jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 });
+             let legit = await jwt.verify(token, JWT_SECRET, { expiresIn: 60 });
+
+
+             res.json({
+                success: true,
+                token: `Bearer ${token}`,
+                userData: legit
+            });
         }
     } catch (error) {
         console.log('Error inside of /api/users/signup')
@@ -110,6 +125,39 @@ const profile = async (req, res) => {
     })
 }
 
+const fetchOneUser = async (req, res) => {
+    try {
+        const { id } = req.params
+        const user = await User.findById(id).populate('videos')
+        console.log(user)
+        res.json(user)
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({message: 'No users found....'})
+
+    }
+}
+
+const fetchUsers = async (req, res) => {
+    console.log('Inside of fetchUsers route')
+    try {
+        const users = await User.find()
+        console.log(users)
+
+        if(!users) {
+            return res.status(400).json({message: 'No users found....'})
+        } else {
+            res.json(users)
+        }
+    } catch (error) {
+        console.log(`--- Error inside of /api/users/all-users`)
+        console.log(error)
+        return res.status(400).json({message: 'No users found....'})
+    }
+}
+
+
+
 // routes
 router.get('/test', test);
 
@@ -122,6 +170,9 @@ router.post('/login', login);
 
 // GET api/users/profile (Private)
 router.get('/profile', passport.authenticate('jwt', { session: false }), profile);
-// router.get('/all-users', fetchUsers);
+router.get('/all-users', fetchUsers);
+router.get('/:id', fetchOneUser);
+
+
 
 module.exports = router; 
